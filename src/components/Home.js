@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import {Route} from 'react-router-dom';
 import Header from './Header';
+import PostList from './PostList';
+import PostDetails from './PostDetails';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -17,9 +20,9 @@ class Home extends Component {
     render() {
         return (
             <>
-                <Header>
-                    
-                </Header>
+                <Header username={this.state.username} onLogout={this.onLogout}></Header>
+                <Route path={this.props.match.url} component={PostList} exact></Route>
+                <Route path={this.props.match.url + '/:id'} component={PostDetails}></Route>
             </>
         )
     }

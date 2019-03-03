@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {get} from './utils/request';
+import { get } from './utils/request';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {posts:[]};
+    this.state = { posts: [] };
   }
   componentDidMount() {
-    get('/post').then(res => this.setState({posts: res.result || []}))
+    get('/post').then(res => this.setState({ posts: res.result || [] }))
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React with kaizige
-          </a>
-          <ul>{this.state.posts.map(item => <li>{item.title}</li>)}</ul>
-        </header>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Home}></Route>
+          <Route exact path='/login' component={Login}></Route>
+          <Route exact path='/post' component={Home}></Route>
+        </Switch>
+      </Router>
     );
   }
 }
