@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {get} from './utils/request';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {posts:[]};
+  }
+  componentDidMount() {
+    get('/post').then(res => this.setState({posts: res.result || []}))
+  }
   render() {
     return (
       <div className="App">
@@ -19,6 +27,7 @@ class App extends Component {
           >
             Learn React with kaizige
           </a>
+          <ul>{this.state.posts.map(item => <li>{item.title}</li>)}</ul>
         </header>
       </div>
     );
