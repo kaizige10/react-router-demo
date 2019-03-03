@@ -11,18 +11,21 @@ class Home extends Component {
             username: username ? username : ''
         }
         this.onLogout = this.onLogout.bind(this);
+        // console.log('Home props: ', props);
     }
     onLogout() {
         this.setState({
             username: ''
-        })
+        });
+        sessionStorage.removeItem('username');
     }
     render() {
+        const username = this.state.username;
         return (
             <>
-                <Header username={this.state.username} onLogout={this.onLogout}></Header>
-                <Route path={this.props.match.url} component={PostList} exact></Route>
-                <Route path={this.props.match.url + '/:id'} component={PostDetails}></Route>
+                <Header username={username} onLogout={this.onLogout} pathname={this.props.location.pathname}></Header>
+                <Route path={this.props.match.url} exact render={props => <PostList username={username} {...props}></PostList>}></Route>
+                <Route path='/post/:id' render={props => <PostDetails username={username} {...props}></PostDetails>}></Route>
             </>
         )
     }

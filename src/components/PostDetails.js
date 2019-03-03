@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class PostDetails extends Component {
     constructor(props) {
         super(props);
-        
+        console.log(props);
         this.state = {
             // username:username ? username: ''
         }
