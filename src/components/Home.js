@@ -25,7 +25,7 @@ class Home extends Component {
             <>
                 <Header username={username} onLogout={this.onLogout} pathname={this.props.location.pathname}></Header>
                 <Route path={this.props.match.url} exact render={props => <PostList username={username} {...props}></PostList>}></Route>
-                <Route path='/post/:id' render={props => <PostDetails username={username} {...props}></PostDetails>}></Route>
+                <Route path={this.props.match.url + '/:id'} render={props => <PostDetails username={username} {...props}></PostDetails>}></Route>
             </>
         )
     }
