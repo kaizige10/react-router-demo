@@ -27,7 +27,7 @@ function put(url, data) {
     return fetch(url, {
         method: "PUT",
         headers: headers,
-        body: data
+        body: JSON.stringify(data)
     }).then(response => handleResponse(url, response))
         .catch(err => {
             console.error(`Request failed. Url=${url}, Message=${err}`);

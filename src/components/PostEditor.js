@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 class PostEditor extends Component {
     constructor(props) {
         super(props);
+        const {title, content} = this.props;
         this.state = {
-            title: '',
-            content: ''
+            title: title || '',
+            content: content || ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.clear = this.clear.bind(this);
