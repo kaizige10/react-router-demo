@@ -26,8 +26,8 @@ class Login extends Component {
                 this.setState({showError: res.result});
             }
             if (res.code === 0) {
-                this.setState({showError: '', isRidirect: true});
                 sessionStorage.setItem('username', this.state.username);
+                this.setState({showError: '', isRidirect: true});
             }
         })
     }

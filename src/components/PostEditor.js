@@ -9,7 +9,6 @@ class PostEditor extends Component {
             content: content || ''
         }
         this.handleChange = this.handleChange.bind(this);
-        this.clear = this.clear.bind(this);
         this.save = this.save.bind(this);
     }
     handleChange(e) {
@@ -19,9 +18,6 @@ class PostEditor extends Component {
         if (e.target.name === 'content'){
             this.setState({'content': e.target.value});
         }
-    }
-    clear() {
-        this.setState({'title': '', 'content': ''});
     }
     save() {
         const {title, content} = this.state;
@@ -37,7 +33,7 @@ class PostEditor extends Component {
                     <textarea name='content' placeholder='内容' onChange={this.handleChange} value={this.state.content}></textarea>
                 </div>
                 <div>
-                    <button onClick={this.clear}>清空</button>
+                    <button onClick={this.props.cancleEdit}>取消</button>
                     <button onClick={this.save}>保存</button>
                 </div>
             </>
