@@ -9,4 +9,5 @@
 }
 .vote img {
     vertical-align: -8px;
+    cursor: pointer;
 }

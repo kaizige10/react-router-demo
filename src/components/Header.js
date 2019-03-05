@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 class Header extends Component {
     render() {
+        console.log('Header 被渲染了');
         const toLogin = {
             pathname: "/login",
             state: {from: this.props.location}

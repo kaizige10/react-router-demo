@@ -39,6 +39,7 @@ class Login extends Component {
         }
     }
     render() {
+        console.log('Login 被渲染了');
         if (this.state.isRidirect) {
             return <Redirect to={this.props.location.state.from || {pathname: '/'}}></Redirect>
         }

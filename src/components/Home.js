@@ -20,10 +20,11 @@ class Home extends Component {
         sessionStorage.removeItem('username');
     }
     render() {
+        console.log('Home 被渲染了');
         const username = this.state.username;
         return (
             <>
-                <Header username={username} onLogout={this.onLogout} pathname={this.props.location.pathname}></Header>
+                <Header username={username} onLogout={this.onLogout} location={this.props.location}></Header>
                 <Route path={this.props.match.url} exact render={props => <PostList username={username} {...props}></PostList>}></Route>
                 <Route path={this.props.match.url + '/:id'} render={props => <PostDetails username={username} {...props}></PostDetails>}></Route>
             </>

@@ -3,7 +3,7 @@ import PostEditor from './PostEditor';
 import CommentList from './CommentList';
 import timeformat from '../utils/timeformat';
 import like from '../images/like.png';
-import { put } from '../utils/request';
+import { put, get } from '../utils/request';
 import '../css/app.css';
 class PostDetails extends Component {
     constructor(props) {
@@ -15,6 +15,7 @@ class PostDetails extends Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.cancleEdit = this.cancleEdit.bind(this);
+        this.handleVote = this.handleVote.bind(this);
     }
     handleEdit() {
         this.setState({ isEditing: true })
@@ -36,7 +37,27 @@ class PostDetails extends Component {
     cancleEdit() {
         this.setState({isEditing: false});
     }
+    handleVote(post) {
+        if (this.props.username) {
+            put(`/post/${post.id}`, { vote: post.vote + 1 })
+                .then(res => {
+                    // console.log('handleSave, put post: ', res);
+                    if (res.code === 0) {
+                        get(`/post/${post.id}`).then(res => {
+                            if (res.code === 0) {
+                                this.setState({ post: res.result });
+                            } else {
+                                console.log(res.result);
+                            }
+                        });
+                    } else {
+                        console.log(res.result);
+                    }
+                });
+        }
+    }
     render() {
+        console.log('PostDetails 被渲染了');
         const { post, isEditing } = this.state;
         return (
             <div>
@@ -46,7 +67,7 @@ class PostDetails extends Component {
                             {post.author} · {timeformat(post.updatedAt)} · {post.author === this.props.username ? <button onClick={this.handleEdit}>编辑</button> : null}
                         </div></>)}
                 {isEditing ? null : <p>{post.content}</p>}
-                <p className='vote'><img src={like} alt={'点赞'}></img>{post.vote}</p>
+                <p className='vote'><img src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
                 <CommentList postId={post.id} username={this.props.username}></CommentList>
             </div>
         )

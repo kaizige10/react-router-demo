@@ -14,7 +14,7 @@ class CommentList extends Component {
     }
     componentDidMount() {
         get(`/comment/${this.props.postId}`).then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.code === 0) {
                 this.setState({comments: res.result});
             } else {
@@ -30,12 +30,12 @@ class CommentList extends Component {
         e.preventDefault();
         post(`/comment`, { postId: this.props.postId, content: this.state.commentContent, author: this.props.username })
                 .then(res => {
-                    console.log('handleSubmit, post comment: ', res);
+                    // console.log('handleSubmit, post comment: ', res);
                     if (res.code === 0) {
                         get(`/comment/${this.props.postId}`).then(resp => {
-                            console.log(resp);
+                            // console.log(resp);
                             if (resp.code === 0) {
-                                this.setState({comments: resp.result});
+                                this.setState({comments: resp.result, commentContent: ''});
                             } else {
                                 console.log(resp.result);
                             }
@@ -46,11 +46,12 @@ class CommentList extends Component {
                 });
     }
     render() {
+        console.log('CommentList 被渲染了，this.state.comments: ', this.state.comments);
         return (
             <div>
                 <h2>评论</h2>
                 {this.props.username ? (<div>
-                    <textarea value={this.state.commentContent} onChange={this.handleChange}></textarea>
+                    <textarea value={this.state.commentContent} onChange={this.handleChange} placeholder='说说你的看法'></textarea>
                     <button onClick={this.handleSubmit}>提交</button>
                 </div>) : null}
                 <ul>

@@ -24,6 +24,7 @@ class PostEditor extends Component {
         this.props.handleSave(title, content);
     }
     render() {
+        console.log('PostEditor 被渲染了');
         return (
             <>
                 <div>

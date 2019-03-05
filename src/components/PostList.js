@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { get, post } from '../utils/request';
+import { get, post, put } from '../utils/request';
 import PostEditor from './PostEditor';
 import timeformat from '../utils/timeformat';
 import '../css/app.css';
@@ -14,6 +14,7 @@ class PostList extends Component {
         }
         this.handleSave = this.handleSave.bind(this);
         this.cancleEdit = this.cancleEdit.bind(this);
+        this.handleVote = this.handleVote.bind(this);
     }
     componentDidMount() {
         get('/post').then(res => this.setState({ posts: res.result || [] }))
@@ -37,7 +38,28 @@ class PostList extends Component {
     cancleEdit() {
         this.setState({ isEditing: false });
     }
+    handleVote(post) {
+        if (this.props.username) {
+            put(`/post/${post.id}`, { vote: post.vote + 1 })
+                .then(res => {
+                    // console.log('handleSave, put post: ', res);
+                    if (res.code === 0) {
+                        get('/post').then(res => {
+                            if (res.code === 0) {
+                                this.setState({ posts: res.result || [] });
+                            } else {
+                                console.log(res.result);
+                            }
+                            this.setState({ isEditing: false });
+                        });
+                    } else {
+                        console.log(res.result);
+                    }
+                });
+        }
+    }
     render() {
+        console.log('PostList 被渲染了, this.state.posts: ', this.state.posts);
         return (
             <div>
                 <h1>话题列表</h1>
@@ -54,7 +76,7 @@ class PostList extends Component {
                                 <Link to={{ pathname: `/post/${post.id}`, state: { post: post } }} ><p>title:{post.title}</p></Link>
                                 <p>作者:{post.author}</p>
                                 <p>更新时间:{timeformat(post.updatedAt)}</p>
-                                <p className='vote'><img src={like} alt={'点赞'}></img>{post.vote}</p>
+                                <p className='vote'><img src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
                             </li>
 
                         )
