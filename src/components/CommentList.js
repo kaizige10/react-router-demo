@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import timeformat from '../utils/timeformat';
 import { get, post } from '../utils/request';
-import '../css/app.css';
+import {Input, Button} from 'zent';
 class CommentList extends Component {
     constructor(props) {
         super(props);
@@ -48,21 +48,21 @@ class CommentList extends Component {
     render() {
         console.log('CommentList 被渲染了，this.state.comments: ', this.state.comments);
         return (
-            <div>
+            <section id='comment_list'>
                 <h2>评论</h2>
-                {this.props.username ? (<div>
-                    <textarea value={this.state.commentContent} onChange={this.handleChange} placeholder='说说你的看法'></textarea>
-                    <button onClick={this.handleSubmit}>提交</button>
-                </div>) : null}
+                {this.props.username ? (<>
+                    <Input htmlType='textarea' value={this.state.commentContent} onChange={this.handleChange} placeholder='说说你的看法'></Input>
+                    <Button type='primary' onClick={this.handleSubmit}>提交</Button>
+                </>) : null}
                 <ul>
                     {this.state.comments.map(comment => {
-                        return <li key={comment.id}>
-                                <p>{comment.content}</p>
+                        return <li key={comment.id} className='bb b--gray'>
+                                <p className='mb2'>{comment.content}</p>
                                 <p>{comment.author} · {timeformat(comment.updatedAt)}</p>
                             </li>
                     })}
                 </ul>
-            </div>
+            </section>
         )
     }
 }

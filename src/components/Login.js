@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {post} from '../utils/request';
+import {Input, Button} from 'zent';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -44,13 +45,12 @@ class Login extends Component {
             return <Redirect to={this.props.location.state.from || {pathname: '/'}}></Redirect>
         }
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className='center mv6 tc' id='login_form'>
+                <h1>请登录</h1>
                 {this.state.showError ? <input id='show_error' type='text'  readOnly value={this.state.showError}></input> : null}
-                <label htmlFor='input_username'>用户名</label>
-                <input id='input_username' type='text' onChange={this.handleChange} value={this.state.username}></input>
-                <label htmlFor='input_password'>密码</label>
-                <input id='input_password' type='password' onChange={this.handleChange} value={this.state.password}></input>
-                <button type='submit'>登录</button>
+                <Input id='input_username' type='text' onChange={this.handleChange} value={this.state.username} placeholder="请输入用户名"></Input>
+                <Input id='input_password' type='password' onChange={this.handleChange} value={this.state.password} placeholder="请输入密码"></Input>
+                <Button htmlType='submit'>登录</Button>
             </form>
         )
     }

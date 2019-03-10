@@ -11,3 +11,25 @@
     vertical-align: -6px;
     cursor: pointer;
 }
+#login_form {
+    min-width: 8rem;
+    max-width: 15rem;
+}
+#login_form > * {
+    margin-top: 2rem;
+}
+#post_list ul li > * {
+    margin-top: 1rem;
+}
+#post_editor > * {
+    margin-top: 1rem;
+}
+#post_details > * {
+    margin-top: 1rem;
+}
+#comment_list > * {
+    margin-top: 1rem;
+}
+#comment_list ul li {
+    margin-top: 1rem;
+}

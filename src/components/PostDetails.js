@@ -4,7 +4,7 @@ import CommentList from './CommentList';
 import timeformat from '../utils/timeformat';
 import like from '../images/like.png';
 import { put, get } from '../utils/request';
-import '../css/app.css';
+import {Button} from 'zent';
 class PostDetails extends Component {
     constructor(props) {
         super(props);
@@ -60,16 +60,16 @@ class PostDetails extends Component {
         console.log('PostDetails 被渲染了');
         const { post, isEditing } = this.state;
         return (
-            <div>
+            <section id='post_details' className='mh5'>
                 {isEditing ? <PostEditor handleSave={this.handleSave} cancleEdit={this.cancleEdit} title={post.title} content={post.content}></PostEditor> :
-                    (<><h1>{post.title}</h1>
+                    (<><h1 className='tc'>{post.title}</h1>
                         <div>
-                            {post.author} · {timeformat(post.updatedAt)} · {post.author === this.props.username ? <button onClick={this.handleEdit}>编辑</button> : null}
+                            <span className='fw6'>{post.author}</span> · {timeformat(post.updatedAt)} · {post.author === this.props.username ? <Button type='primary' outline size='small' onClick={this.handleEdit}>编辑</Button> : null}
                         </div></>)}
                 {isEditing ? null : <p>{post.content}</p>}
                 <p className='vote'><img width='25px' height='25px' src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
                 <CommentList postId={post.id} username={this.props.username}></CommentList>
-            </div>
+            </section>
         )
     }
 }

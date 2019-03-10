@@ -62,9 +62,9 @@ class PostList extends Component {
     render() {
         console.log('PostList 被渲染了, this.state.posts: ', this.state.posts);
         return (
-            <div className='mh5'>
+            <div id='post_list' className='mh5'>
                 <h1 className='tc'>话题列表</h1>
-                {this.props.username ? <Button onClick={() => this.setState({ isEditing: true })} >发帖</Button> : null}
+                {this.props.username ? <Button type='primary' onClick={() => this.setState({ isEditing: true })} >发帖</Button> : null}
                 {(this.props.username && this.state.isEditing) ?
                     <div>
                         <PostEditor handleSave={this.handleSave} cancleEdit={this.cancleEdit}></PostEditor>
@@ -72,7 +72,7 @@ class PostList extends Component {
                 <ul className='mt3'>
                     {this.state.posts.map(post => {
                         return (
-                            <li key={post.id} className='mt3'>
+                            <li key={post.id} className='mv3 bb b--gray'>
                                 <Link to={{ pathname: `/post/${post.id}`, state: { post: post } }} className='f3'>{post.title}</Link>
                                 <p>作者: {post.author}</p>
                                 <p>更新时间: {timeformat(post.updatedAt)}</p>
