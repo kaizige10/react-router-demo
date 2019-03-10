@@ -1,21 +1,27 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { Button } from 'zent';
 // import Home from './Home';
 // import Login from './Login';
 
 class Header extends Component {
+    handleHome = () => { 
+        this.props.history.push('/') 
+    }
     render() {
         console.log('Header 被渲染了');
         const toLogin = {
             pathname: "/login",
-            state: {from: this.props.location}
+            state: { from: this.props.location }
         }
         return (
-            <div>
-                <Link to="/">首页</Link>
-                {this.props.username ?
-                    (<div>当前用户： {this.props.username}<button onClick={this.props.onLogout}>注销</button></div>) : <Link to={toLogin}>登录</Link>}
-            </div>
+            <header className="bb b--gray pv2">
+                <div className="flex ml5 mr5 justify-between">
+                    <Button onClick={this.handleHome}>首页</Button>
+                    {this.props.username ?
+                        (<div className='gray'>当前用户： {this.props.username}<Button onClick={this.props.onLogout} className='ml2'>注销</Button></div>) : <Link to={toLogin} >登录</Link>}
+                </div>
+            </header>
         )
     }
 }

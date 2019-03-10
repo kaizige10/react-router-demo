@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { get, post, put } from '../utils/request';
 import PostEditor from './PostEditor';
 import timeformat from '../utils/timeformat';
+import { Button } from 'zent';
 import '../css/app.css';
 import like from '../images/like.png';
 class PostList extends Component {
@@ -61,22 +62,21 @@ class PostList extends Component {
     render() {
         console.log('PostList 被渲染了, this.state.posts: ', this.state.posts);
         return (
-            <div>
-                <h1>话题列表</h1>
-
+            <div className='mh5'>
+                <h1 className='tc'>话题列表</h1>
+                {this.props.username ? <Button onClick={() => this.setState({ isEditing: true })} >发帖</Button> : null}
                 {(this.props.username && this.state.isEditing) ?
                     <div>
-                        <button onClick={() => this.setState({ isEditing: true })}>发帖</button>
                         <PostEditor handleSave={this.handleSave} cancleEdit={this.cancleEdit}></PostEditor>
                     </div> : null}
-                <ul>
+                <ul className='mt3'>
                     {this.state.posts.map(post => {
                         return (
-                            <li key={post.id}>
-                                <Link to={{ pathname: `/post/${post.id}`, state: { post: post } }} ><p>title:{post.title}</p></Link>
-                                <p>作者:{post.author}</p>
-                                <p>更新时间:{timeformat(post.updatedAt)}</p>
-                                <p className='vote'><img src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
+                            <li key={post.id} className='mt3'>
+                                <Link to={{ pathname: `/post/${post.id}`, state: { post: post } }} className='f3'>{post.title}</Link>
+                                <p>作者: {post.author}</p>
+                                <p>更新时间: {timeformat(post.updatedAt)}</p>
+                                <p className='vote'><img width='25px' height='25px' src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
                             </li>
 
                         )

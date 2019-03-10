@@ -67,7 +67,7 @@ class PostDetails extends Component {
                             {post.author} · {timeformat(post.updatedAt)} · {post.author === this.props.username ? <button onClick={this.handleEdit}>编辑</button> : null}
                         </div></>)}
                 {isEditing ? null : <p>{post.content}</p>}
-                <p className='vote'><img src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
+                <p className='vote'><img width='25px' height='25px' src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
                 <CommentList postId={post.id} username={this.props.username}></CommentList>
             </div>
         )
