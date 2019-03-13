@@ -1,11 +1,8 @@
 import React, {Component} from 'react'
 import {Route} from 'react-router-dom';
-import asyncComponent from '../utils/asyncComponent';
 import Header from './Header';
-
-const AsyncPostList = asyncComponent(() => import('./PostList'));
-const AsyncPostDetails = asyncComponent(() => import('./PostDetails'));
-
+import PostList from './PostList';
+import PostDetails from './PostDetails';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -28,8 +25,8 @@ class Home extends Component {
         return (
             <>
                 <Header username={username} onLogout={this.onLogout} location={this.props.location} history={this.props.history}></Header>
-                <Route path={this.props.match.url} exact render={props => <AsyncPostList username={username} {...props}></AsyncPostList>}></Route>
-                <Route path={this.props.match.url + '/:id'} render={props => <AsyncPostDetails username={username} {...props}></AsyncPostDetails>}></Route>
+                <Route path={this.props.match.url} exact render={props => <PostList username={username} {...props}></PostList>}></Route>
+                <Route path={this.props.match.url + '/:id'} render={props => <PostDetails username={username} {...props}></PostDetails>}></Route>
             </>
         )
     }
