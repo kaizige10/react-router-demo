@@ -28,7 +28,7 @@ class CommentList extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        post(`/comment`, { postId: this.props.postId, content: this.state.commentContent, author: this.props.username })
+        post(`/comment`, { postId: this.props.postId, content: this.state.commentContent, userId: this.props.user.id })
                 .then(res => {
                     // console.log('handleSubmit, post comment: ', res);
                     if (res.code === 0) {
@@ -50,7 +50,7 @@ class CommentList extends Component {
         return (
             <section id='comment_list'>
                 <h2>评论</h2>
-                {this.props.username ? (<>
+                {this.props.user ? (<>
                     <Input htmlType='textarea' value={this.state.commentContent} onChange={this.handleChange} placeholder='说说你的看法'></Input>
                     <Button type='primary' onClick={this.handleSubmit}>提交</Button>
                 </>) : null}
@@ -58,7 +58,7 @@ class CommentList extends Component {
                     {this.state.comments.map(comment => {
                         return <li key={comment.id} className='bb b--gray'>
                                 <p className='mb2'>{comment.content}</p>
-                                <p>{comment.author} · {timeformat(comment.updatedAt)}</p>
+                                <p>{comment.author.name} · {timeformat(comment.updatedAt)}</p>
                             </li>
                     })}
                 </ul>

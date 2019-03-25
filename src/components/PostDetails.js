@@ -23,7 +23,7 @@ class PostDetails extends Component {
     }
     handleSave(title, content) {
         const { post } = this.state;
-        if (this.props.username) {
+        if (this.props.user) {
             put(`/post/${post.id}`, { title: title, content: content })
                 .then(res => {
                     // console.log('handleSave, put post: ', res);
@@ -39,7 +39,7 @@ class PostDetails extends Component {
         this.setState({isEditing: false});
     }
     handleVote(post) {
-        if (this.props.username) {
+        if (this.props.user) {
             put(`/post/${post.id}`, { vote: post.vote + 1 })
                 .then(res => {
                     // console.log('handleSave, put post: ', res);
@@ -57,19 +57,31 @@ class PostDetails extends Component {
                 });
         }
     }
+    componentDidMount() {
+        const { post } = this.state;
+        get(`/post/${post.id}`).then(res => {
+            if (res.code === 0) {
+                this.setState({ post: res.result });
+            } else {
+                console.error(res.result);
+            }
+        });
+    }
     render() {
-        console.log('PostDetails 被渲染了');
+        
         const { post, isEditing } = this.state;
+        console.log('PostDetails 被渲染了');
+        console.log(post);
         return (
             <section id='post_details' className='mh5'>
                 {isEditing ? <PostEditor handleSave={this.handleSave} cancleEdit={this.cancleEdit} title={post.title} content={post.content}></PostEditor> :
                     (<><h1 className='tc'>{post.title}</h1>
                         <div>
-                            <span className='fw6'>{post.author}</span> · {timeformat(post.updatedAt)} · {post.author === this.props.username ? <Button type='primary' outline size='small' onClick={this.handleEdit}>编辑</Button> : null}
+                            <span className='fw6'>{post.author.name}</span> · {timeformat(post.updatedAt)} · {post.author.name === this.props.user.name ? <Button type='primary' outline size='small' onClick={this.handleEdit}>编辑</Button> : null}
                         </div></>)}
                 {isEditing ? null : <p>{post.content}</p>}
                 <p className='vote'><img width='25px' height='25px' src={like} alt={'点赞'} onClick={()=>this.handleVote(post)}></img>{post.vote}</p>
-                <CommentList postId={post.id} username={this.props.username}></CommentList>
+                <CommentList postId={post.id} user={this.props.user}></CommentList>
             </section>
         )
     }

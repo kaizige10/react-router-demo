@@ -9,27 +9,27 @@ const AsyncPostDetails = asyncComponent(() => import('./PostDetails'));
 class Home extends Component {
     constructor(props) {
         super(props);
-        const username = sessionStorage.getItem('username');
+        const user = JSON.parse(sessionStorage.getItem('user'));
         this.state = {
-            username: username ? username : ''
+            user: user
         }
         this.onLogout = this.onLogout.bind(this);
         // console.log('Home props: ', props);
     }
     onLogout() {
         this.setState({
-            username: ''
+            user: null
         });
-        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('user');
     }
     render() {
         console.log('Home 被渲染了');
-        const username = this.state.username;
+        const user = this.state.user;
         return (
             <>
-                <Header username={username} onLogout={this.onLogout} location={this.props.location} history={this.props.history}></Header>
-                <Route path={this.props.match.url} exact render={props => <AsyncPostList username={username} {...props}></AsyncPostList>}></Route>
-                <Route path={this.props.match.url + '/:id'} render={props => <AsyncPostDetails username={username} {...props}></AsyncPostDetails>}></Route>
+                <Header user={user} onLogout={this.onLogout} location={this.props.location} history={this.props.history}></Header>
+                <Route path={this.props.match.url} exact render={props => <AsyncPostList user={user} {...props}></AsyncPostList>}></Route>
+                <Route path={this.props.match.url + '/:id'} render={props => <AsyncPostDetails user={user} {...props}></AsyncPostDetails>}></Route>
             </>
         )
     }

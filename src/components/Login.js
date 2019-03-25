@@ -27,7 +27,8 @@ class Login extends Component {
                 this.setState({showError: res.result});
             }
             if (res.code === 0) {
-                sessionStorage.setItem('username', this.state.username);
+                const user = res.result;
+                sessionStorage.setItem('user', JSON.stringify({id: user.id, name: user.name}));
                 this.setState({showError: '', isRidirect: true});
             }
         })
@@ -47,7 +48,7 @@ class Login extends Component {
         return (
             <form onSubmit={this.handleSubmit} className='center mv6 tc' id='login_form'>
                 <h1>请登录</h1>
-                {this.state.showError ? <input id='show_error' type='text'  readOnly value={this.state.showError}></input> : null}
+                {this.state.showError ? <span id='show_error'>{this.state.showError}</span> : null}
                 <Input id='input_username' type='text' onChange={this.handleChange} value={this.state.username} placeholder="请输入用户名"></Input>
                 <Input id='input_password' type='password' onChange={this.handleChange} value={this.state.password} placeholder="请输入密码"></Input>
                 <Button htmlType='submit'>登录</Button>

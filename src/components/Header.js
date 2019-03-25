@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Button } from 'zent';
 // import Home from './Home';
 // import Login from './Login';
+import { Button} from 'zent';
 
 class Header extends Component {
     handleHome = () => { 
@@ -20,8 +20,8 @@ class Header extends Component {
             <header className="bb b--gray pv2">
                 <div className="flex ml5 mr5 justify-between flex-wrap">
                     <Button onClick={this.handleHome}>首页</Button>
-                    {this.props.username ?
-                        (<div className='gray'>当前用户： {this.props.username}<Button onClick={this.props.onLogout} className='ml2'>注销</Button></div>) : <Button onClick={this.handleLogin} >登录</Button>}
+                    {this.props.user ?
+                        (<div className='gray'>当前用户： {this.props.user.name}<Button onClick={this.props.onLogout} className='ml2'>注销</Button></div>) : <Button onClick={this.handleLogin} >登录</Button>}
                 </div>
             </header>
         )
