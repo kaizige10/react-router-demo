@@ -5,6 +5,7 @@ import timeformat from '../utils/timeformat';
 import like from '../images/like.png';
 import { put, get } from '../utils/request';
 import {Button} from 'zent';
+import url from '../utils/url';
 class PostDetails extends Component {
     constructor(props) {
         super(props);
@@ -40,11 +41,11 @@ class PostDetails extends Component {
     }
     handleVote(post) {
         if (this.props.user) {
-            put(`/post/${post.id}`, { vote: post.vote + 1 })
+            put(url.modifyPost(post.id), { vote: post.vote + 1 })
                 .then(res => {
                     // console.log('handleSave, put post: ', res);
                     if (res.code === 0) {
-                        get(`/post/${post.id}`).then(res => {
+                        get(url.getPost(post.id)).then(res => {
                             if (res.code === 0) {
                                 this.setState({ post: res.result });
                             } else {
@@ -59,7 +60,7 @@ class PostDetails extends Component {
     }
     componentDidMount() {
         const { post } = this.state;
-        get(`/post/${post.id}`).then(res => {
+        get(url.getPost(post.id)).then(res => {
             if (res.code === 0) {
                 this.setState({ post: res.result });
             } else {

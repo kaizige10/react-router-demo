@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import timeformat from '../utils/timeformat';
 import { get, post } from '../utils/request';
 import {Input, Button} from 'zent';
+import url from '../utils/url';
 class CommentList extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,7 @@ class CommentList extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        get(`/comment/${this.props.postId}`).then(res => {
+        get(url.getComments(this.props.postId)).then(res => {
             // console.log(res);
             if (res.code === 0) {
                 this.setState({comments: res.result});
@@ -28,11 +29,11 @@ class CommentList extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        post(`/comment`, { postId: this.props.postId, content: this.state.commentContent, userId: this.props.user.id })
+        post(url.createComment, { postId: this.props.postId, content: this.state.commentContent, userId: this.props.user.id })
                 .then(res => {
                     // console.log('handleSubmit, post comment: ', res);
                     if (res.code === 0) {
-                        get(`/comment/${this.props.postId}`).then(resp => {
+                        get(url.getComments(this.props.postId)).then(resp => {
                             // console.log(resp);
                             if (resp.code === 0) {
                                 this.setState({comments: resp.result, commentContent: ''});

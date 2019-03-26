@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {post} from '../utils/request';
 import {Input, Button} from 'zent';
+import url from '../utils/url';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ class Login extends Component {
             this.setState({showError: '请输入密码！'});
             return;
         }
-        post('/user/login', {name: this.state.username, password: this.state.password}).then(res => {
+        post(url.login, {name: this.state.username, password: this.state.password}).then(res => {
             if (res.code === 1) {
                 this.setState({showError: res.result});
             }

@@ -6,6 +6,8 @@ import timeformat from '../utils/timeformat';
 import { Button } from 'zent';
 import '../css/app.css';
 import like from '../images/like.png';
+import url from '../utils/url';
+
 class PostList extends Component {
     constructor(props) {
         super(props);
@@ -18,13 +20,13 @@ class PostList extends Component {
         this.handleVote = this.handleVote.bind(this);
     }
     componentDidMount() {
-        get('/post').then(res => this.setState({ posts: res.result || [] }))
+        get(url.getPosts).then(res => this.setState({ posts: res.result || [] }))
     }
     handleSave(title, content) {
         if (this.props.user) {
-            post('/post', { title: title, userId: this.props.user.id, content: content })
+            post(url.createPost, { title: title, userId: this.props.user.id, content: content })
                 .then(res => {
-                    get('/post').then(res => {
+                    get(url.getPosts).then(res => {
                         if (res.code === 0) {
                             this.setState({ posts: res.result || [] });
                         } else {
@@ -40,11 +42,11 @@ class PostList extends Component {
     }
     handleVote(post) {
         if (this.props.user) {
-            put(`/post/${post.id}`, { vote: post.vote + 1 })
+            put(url.modifyPost(post.id), { vote: post.vote + 1 })
                 .then(res => {
                     // console.log('handleSave, put post: ', res);
                     if (res.code === 0) {
-                        get('/post').then(res => {
+                        get(url.getPosts).then(res => {
                             if (res.code === 0) {
                                 this.setState({ posts: res.result || [] });
                             } else {
