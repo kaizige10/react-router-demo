@@ -42,3 +42,7 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer;
+
+// selector
+export const getRequestQuantity = (state) => (state.app.requestQuantity);
+export const getError = (state) => (state.app.error);
